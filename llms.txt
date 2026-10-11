@@ -1,0 +1,18 @@
+# CNPJ Alfanumérico
+
+> Ferramenta independente e gratuita para gerar identificadores sintéticos e validar os dígitos verificadores do CNPJ alfanumérico.
+
+## Conteúdo principal
+
+- [Gerador e validador](https://cnpjalfanumerico.com.br/): ferramenta, explicação resumida, limitações e perguntas frequentes.
+
+## Limites importantes
+
+- Não há vínculo com a Receita Federal.
+- A validação é somente matemática e não confirma situação cadastral.
+- Números gerados são sintéticos e destinados a desenvolvimento, QA e homologação.
+
+## Fontes oficiais
+
+- [Projeto CNPJ Alfanumérico](https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/programas-e-atividades/cnpj-alfanumerico)
+- [Cálculo oficial do dígito verificador](https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj)

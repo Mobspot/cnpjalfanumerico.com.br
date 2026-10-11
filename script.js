@@ -1,180 +1,117 @@
-const input = document.getElementById("cnpjInput");
-const generateBtn = document.getElementById("generateBtn");
-const copyBtn = document.getElementById("copyBtn");
-const toast = document.getElementById("toast");
-const apiBtn = document.getElementById("apiBtn");
+(function (global) {
+  "use strict";
 
-const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const WEIGHTS_FIRST = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+  const WEIGHTS_SECOND = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
 
-/* UTIL */
-
-function randomChar() {
-  return chars[Math.floor(Math.random() * chars.length)];
-}
-
-function charToValue(char) {
-  return char.charCodeAt(0) - 48;
-}
-
-/* DV CALC */
-
-function calculateDigit(base, weights) {
-  let sum = 0;
-
-  for (let i = 0; i < weights.length; i++) {
-    sum += charToValue(base[i]) * weights[i];
+  function normalizeCNPJ(value) {
+    return String(value || "").toUpperCase().replace(/[.\/-]/g, "").replace(/\s/g, "");
   }
 
-  const mod = sum % 11;
-  return mod < 2 ? 0 : 11 - mod;
-}
-
-/* GENERATION */
-
-function generateBase() {
-  let base = "";
-
-  for (let i = 0; i < 12; i++) {
-    base += randomChar();
+  function charToValue(char) {
+    return char.charCodeAt(0) - 48;
   }
 
-  return base;
-}
-
-function generateCNPJ() {
-  const base = generateBase();
-
-  const w1 = [5,4,3,2,9,8,7,6,5,4,3,2];
-  const w2 = [6,5,4,3,2,9,8,7,6,5,4,3,2];
-
-  const d1 = calculateDigit(base, w1);
-  const d2 = calculateDigit(base + d1, w2);
-
-  return base + d1 + d2;
-}
-
-/* FORMAT */
-
-function formatCNPJ(cnpj) {
-  return (
-    cnpj.substring(0,2) + "." +
-    cnpj.substring(2,5) + "." +
-    cnpj.substring(5,8) + "/" +
-    cnpj.substring(8,12) + "-" +
-    cnpj.substring(12)
-  );
-}
-
-/* DISPLAY */
-
-function generateAndShow() {
-  const cnpj = generateCNPJ();
-  input.value = formatCNPJ(cnpj);
-}
-
-/* TOAST */
-
-function showToast(msg) {
-  toast.innerText = msg;
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 1500);
-}
-
-/* EVENTS */
-
-generateBtn.addEventListener("click", generateAndShow);
-
-copyBtn.addEventListener("click", () => {
-  if (!input.value) return;
-
-  navigator.clipboard.writeText(input.value);
-  showToast("CNPJ copiado!");
-});
-
-// apiBtn.addEventListener("click", () => {
-//   alert("API para Empresas: Em desenvolvimento.");
-// });
-
-/* INIT */
-
-generateAndShow();
-
-/* --- MODAL & API FORM (Adicione ao final, substituindo o alert antigo) --- */
-
-const modal = document.getElementById("modalApi");
-const closeModalBtn = document.querySelector(".close-modal");
-const apiForm = document.getElementById("apiForm");
-const formStatus = document.getElementById("form-status");
-
-// 1. Abrir Modal (Substitui o alert)
-apiBtn.addEventListener("click", () => {
-  modal.style.display = "block";
-});
-
-// 2. Fechar Modal (X)
-closeModalBtn.addEventListener("click", () => {
-  modal.style.display = "none";
-  formStatus.innerText = ""; // Limpa mensagens antigas
-});
-
-// 3. Fechar clicando fora
-window.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.style.display = "none";
-    formStatus.innerText = "";
+  function calculateDigit(base, weights) {
+    const sum = weights.reduce((total, weight, index) => total + charToValue(base[index]) * weight, 0);
+    const remainder = sum % 11;
+    return remainder < 2 ? 0 : 11 - remainder;
   }
-});
 
-// 4. Envio do Formulário (AJAX para o Formspree)
-apiForm.addEventListener("submit", async (event) => {
-  event.preventDefault(); // Impede recarregar a página
-  
-  const btn = apiForm.querySelector("button");
-  const originalText = btn.innerText;
-  
-  // Estado de "Enviando"
-  btn.innerText = "Enviando...";
-  btn.disabled = true;
-  formStatus.innerText = "";
-
-  const data = new FormData(event.target);
-
-  try {
-    const response = await fetch(event.target.action, {
-      method: apiForm.method,
-      body: data,
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
-
-    if (response.ok) {
-      formStatus.innerText = "✅ Sucesso! Avisaremos você.";
-      formStatus.style.color = "#059669"; // Verde
-      apiForm.reset();
-      
-      // Fecha o modal automaticamente após 2 seg
-      setTimeout(() => {
-        modal.style.display = "none";
-        formStatus.innerText = "";
-        btn.innerText = originalText;
-        btn.disabled = false;
-      }, 2000);
-      
-    } else {
-      const errorData = await response.json();
-      formStatus.innerText = "❌ Erro. Verifique o e-mail.";
-      formStatus.style.color = "#dc2626"; // Vermelho
-      btn.innerText = originalText;
-      btn.disabled = false;
+  function calculateDigits(base) {
+    if (!/^[A-Z0-9]{12}$/.test(base)) {
+      throw new TypeError("A base deve conter exatamente 12 letras maiúsculas ou números.");
     }
-  } catch (error) {
-    formStatus.innerText = "❌ Erro de conexão.";
-    formStatus.style.color = "#dc2626";
-    btn.innerText = originalText;
-    btn.disabled = false;
+    const first = calculateDigit(base, WEIGHTS_FIRST);
+    const second = calculateDigit(base + first, WEIGHTS_SECOND);
+    return `${first}${second}`;
   }
-});
+
+  function secureRandomIndex(max) {
+    if (global.crypto && typeof global.crypto.getRandomValues === "function") {
+      const values = new Uint32Array(1);
+      global.crypto.getRandomValues(values);
+      return values[0] % max;
+    }
+    return Math.floor(Math.random() * max);
+  }
+
+  function generateBase() {
+    return Array.from({ length: 12 }, () => CHARS[secureRandomIndex(CHARS.length)]).join("");
+  }
+
+  function generateCNPJ() {
+    const base = generateBase();
+    return base + calculateDigits(base);
+  }
+
+  function formatCNPJ(value) {
+    const cnpj = normalizeCNPJ(value);
+    if (cnpj.length !== 14) return value;
+    return `${cnpj.slice(0, 2)}.${cnpj.slice(2, 5)}.${cnpj.slice(5, 8)}/${cnpj.slice(8, 12)}-${cnpj.slice(12)}`;
+  }
+
+  function validateCNPJ(value) {
+    const normalized = normalizeCNPJ(value);
+    if (!/^[A-Z0-9]{12}\d{2}$/.test(normalized)) {
+      return { valid: false, normalized, reason: "Formato inválido. Use 12 letras ou números e 2 dígitos finais." };
+    }
+    const expected = calculateDigits(normalized.slice(0, 12));
+    const valid = normalized.slice(12) === expected;
+    return {
+      valid,
+      normalized,
+      reason: valid ? "Dígitos verificadores válidos." : `Dígitos verificadores inválidos. Para essa base, o DV calculado é ${expected}.`
+    };
+  }
+
+  const api = { normalizeCNPJ, calculateDigits, generateCNPJ, formatCNPJ, validateCNPJ };
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+  global.CNPJAlfanumerico = api;
+
+  if (!global.document) return;
+
+  const generatedInput = document.getElementById("cnpjInput");
+  const generateButton = document.getElementById("generateBtn");
+  const copyButton = document.getElementById("copyBtn");
+  const validateInput = document.getElementById("validateInput");
+  const validateButton = document.getElementById("validateBtn");
+  const validationResult = document.getElementById("validationResult");
+  const toast = document.getElementById("toast");
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    global.setTimeout(() => toast.classList.remove("show"), 1800);
+  }
+
+  function generateAndShow() {
+    generatedInput.value = formatCNPJ(generateCNPJ());
+  }
+
+  generateButton.addEventListener("click", generateAndShow);
+  copyButton.addEventListener("click", async () => {
+    if (!generatedInput.value) return;
+    try {
+      await navigator.clipboard.writeText(generatedInput.value);
+      showToast("CNPJ sintético copiado.");
+    } catch (_error) {
+      generatedInput.select();
+      showToast("Selecione e copie o número manualmente.");
+    }
+  });
+
+  function runValidation() {
+    const result = validateCNPJ(validateInput.value);
+    validationResult.textContent = result.reason;
+    validationResult.className = `result ${result.valid ? "valid" : "invalid"}`;
+  }
+
+  validateButton.addEventListener("click", runValidation);
+  validateInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") runValidation();
+  });
+
+  generateAndShow();
+})(typeof window !== "undefined" ? window : globalThis);

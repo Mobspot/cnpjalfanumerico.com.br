@@ -1,207 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gerador e Validador de CNPJ Alfanumérico | Testes</title>
+  <meta name="description" content="Gere CNPJs alfanuméricos sintéticos e valide os dígitos verificadores pelo algoritmo oficial. Ferramenta gratuita para desenvolvimento, QA e homologação.">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="author" content="Mobspot">
+  <meta name="theme-color" content="#161b22">
+  <link rel="canonical" href="https://cnpjalfanumerico.com.br/">
+  <link rel="icon" type="image/png" href="gerador.png">
+  <link rel="stylesheet" href="style.css">
 
-  <title>Gerador e Validador de CNPJ Alfanumérico (2026)</title>
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="CNPJ Alfanumérico">
+  <meta property="og:title" content="Gerador e Validador de CNPJ Alfanumérico">
+  <meta property="og:description" content="Ferramenta independente para gerar dados sintéticos e validar o dígito verificador do CNPJ alfanumérico.">
+  <meta property="og:url" content="https://cnpjalfanumerico.com.br/">
+  <meta property="og:image" content="https://cnpjalfanumerico.com.br/gerador.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:image:alt" content="Símbolo da ferramenta CNPJ Alfanumérico">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gerador e Validador de CNPJ Alfanumérico">
+  <meta name="twitter:description" content="Gere dados sintéticos e confira os dígitos verificadores do novo formato de CNPJ.">
+  <meta name="twitter:image" content="https://cnpjalfanumerico.com.br/gerador.png">
 
-  <!-- SEO META -->
-  <meta name="description" content="Gerador e Validador de CNPJ Alfanumérico 2026. Gere massa de testes, valide CNPJ com algoritmo Módulo 11 e Tabela ASCII. Ideal para desenvolvedores, QAs e bancos." />
-  <meta name="keywords" content="Gerador CNPJ Alfanumérico, Massa de Teste CNPJ 2026, Algoritmo Validação CNPJ, Tabela ASCII CNPJ, API CNPJ, validar CNPJ novo, CNPJ letras" />
-  <meta name="robots" content="index, follow" />
-  <meta name="author" content="Gerador CNPJ" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Gerador e Validador de CNPJ Alfanumérico 2026" />
-  <meta property="og:description" content="Ferramenta online para gerar e validar CNPJ alfanumérico com padrão da Receita Federal." />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="pt_BR" />
-  <meta property="og:url" content="https://seudominio.github.io" />
-
-  <link rel="stylesheet" href="style.css" />
-
-  <link rel="canonical" href="https://geradorcnpjalfanumerico.com.br/">
-
-  <!-- Schema.org -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Gerador de CNPJ Alfanumérico 2026",
+    "@type": "WebApplication",
+    "name": "Gerador e Validador de CNPJ Alfanumérico",
+    "url": "https://cnpjalfanumerico.com.br/",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Web",
-    "description": "Ferramenta online para geração e validação de CNPJ alfanumérico conforme padrão Receita Federal 2026.",
-    "url": "https://seudominio.github.io"
+    "browserRequirements": "JavaScript habilitado",
+    "isAccessibleForFree": true,
+    "description": "Ferramenta independente para gerar identificadores sintéticos e validar os dígitos verificadores do CNPJ alfanumérico."
   }
   </script>
-
-  <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-PTKZ77SV');</script>
-  <!-- End Google Tag Manager -->
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MRLT4BW05L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MRLT4BW05L');
-</script>
-
 <body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PTKZ77SV"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+  <header class="topbar">
+    <a class="logo" href="/" aria-label="CNPJ Alfanumérico — início">CNPJ_ALFA</a>
+    <a class="source-link" href="https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/programas-e-atividades/cnpj-alfanumerico" target="_blank" rel="noopener noreferrer">Fonte oficial ↗</a>
+  </header>
 
-<header class="topbar">
-  <span class="logo">CNPJ_2026</span>
-  <button id="apiBtn">API para Empresas (Em Breve)</button>
-</header>
+  <main id="conteudo" class="container">
+    <section class="hero" aria-labelledby="titulo-principal">
+      <p class="eyebrow">Ferramenta gratuita para desenvolvimento e QA</p>
+      <h1 id="titulo-principal">Gerador e validador de CNPJ alfanumérico</h1>
+      <p class="lead">Crie identificadores sintéticos com dígitos verificadores válidos ou confira um número pelo algoritmo publicado pela Receita Federal.</p>
 
-<main class="container">
+      <div class="tool-grid">
+        <section class="tool" aria-labelledby="titulo-gerador">
+          <div class="tool-heading">
+            <span aria-hidden="true">01</span>
+            <h2 id="titulo-gerador">Gerar para testes</h2>
+          </div>
+          <label for="cnpjInput">CNPJ sintético gerado</label>
+          <input id="cnpjInput" type="text" readonly aria-describedby="generator-help">
+          <p id="generator-help" class="help">O número possui DV matematicamente válido, mas não representa uma inscrição real.</p>
+          <div class="buttons">
+            <button id="generateBtn" class="primary" type="button">Gerar novo CNPJ</button>
+            <button id="copyBtn" class="secondary" type="button">Copiar</button>
+          </div>
+        </section>
 
-  <!-- HERO -->
-  <section class="hero">
-
-    <h1>Gerador de CNPJ Alfanumérico (2026)</h1>
-
-    <div class="tool">
-
-      <input
-        id="cnpjInput"
-        type="text"
-        readonly
-        placeholder="00.000.000/0000-00"
-        aria-label="CNPJ Gerado"
-      />
-
-      <div class="buttons">
-
-        <button id="generateBtn" class="primary">
-          Gerar CNPJ
-        </button>
-
-        <button id="copyBtn" class="secondary">
-          Copiar
-        </button>
-
+        <section class="tool" aria-labelledby="titulo-validador">
+          <div class="tool-heading">
+            <span aria-hidden="true">02</span>
+            <h2 id="titulo-validador">Validar dígitos</h2>
+          </div>
+          <label for="validateInput">CNPJ com 14 caracteres</label>
+          <input id="validateInput" type="text" inputmode="text" autocomplete="off" spellcheck="false" maxlength="18" placeholder="12.ABC.345/01DE-35" aria-describedby="validator-help validationResult">
+          <p id="validator-help" class="help">Aceita letras de A a Z, números e a máscara tradicional.</p>
+          <button id="validateBtn" class="primary full" type="button">Validar CNPJ</button>
+          <p id="validationResult" class="result" role="status" aria-live="polite"></p>
+        </section>
       </div>
+    </section>
 
-    </div>
-
-  </section>
-
-  <!-- INFO -->
-  <section class="content">
-
-    <h2>Como funciona o CNPJ Alfanumérico em 2026?</h2>
-
-    <p>
-      A Receita Federal implementou oficialmente, em julho de 2026, o modelo de
-      CNPJ alfanumérico para ampliar a capacidade de registros no Brasil.
-      A mudança permite a utilização de letras e números nos 12 primeiros
-      caracteres, mantendo o formato tradicional de 14 dígitos.
-    </p>
-
-    <p>
-      Essa alteração foi publicada em Nota Técnica oficial e impacta sistemas
-      bancários, ERPs, fintechs, plataformas fiscais e ambientes de homologação.
-      Empresas passaram a adaptar seus validadores, rotinas de QA e pipelines
-      automatizados para aceitar o novo padrão.
-    </p>
-
-    <p>
-      O cálculo do dígito verificador continua usando o algoritmo Módulo 11,
-      porém cada caractere é convertido em valor numérico através da tabela
-      ASCII, subtraindo-se 48 do código correspondente. Isso garante
-      compatibilidade entre letras e números.
-    </p>
-
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq">
-
-    <h2>Perguntas Frequentes sobre CNPJ 2026</h2>
-
-    <details>
-      <summary>O que muda no CNPJ em 2026?</summary>
-      <p>
-        O CNPJ passa a aceitar letras (A-Z) nos 12 primeiros caracteres,
-        mantendo os dois dígitos verificadores no final.
-      </p>
-    </details>
-
-    <details>
-      <summary>Como calcular o Dígito Verificador alfanumérico?</summary>
-      <p>
-        Cada caractere é convertido usando o código ASCII menos 48.
-        O resultado é aplicado no cálculo Módulo 11 com pesos definidos.
-      </p>
-    </details>
-
-    <details>
-      <summary>Como gerar massa de testes para bancos?</summary>
-      <p>
-        Utilize este gerador para criar CNPJs válidos para ambientes
-        de homologação, testes automatizados, QA e simulações bancárias.
-      </p>
-    </details>
-
-    <details>
-      <summary>Existe API para validar CNPJ novo?</summary>
-      <p>
-        Atualmente não há API pública oficial. Soluções privadas
-        estão em desenvolvimento para integração empresarial.
-      </p>
-    </details>
-
-  </section>
-
-</main>
-
-<!-- TOAST -->
-<div id="toast">Copiado com sucesso!</div>
-
-<div id="modalApi" class="modal-overlay">
-  <div class="modal-content">
-    <span class="close-modal">&times;</span>
-    
-    <h3>🚀 API para Desenvolvedores</h3>
-    <p>Integre a validação do CNPJ alfanumérico direto no seu ERP ou sistema bancário. Entre na lista de espera.</p>
-    
-    <form id="apiForm" action="https://formspree.io/f/xnjbdpqw" method="POST">
-      
-      <div class="form-group">
-        <label for="email">E-mail Corporativo</label>
-        <input type="email" id="email" name="email" placeholder="dev@suaempresa.com.br" required>
+    <section class="notice" aria-labelledby="aviso-importante">
+      <div class="notice-mark" aria-hidden="true">!</div>
+      <div>
+        <h2 id="aviso-importante">Validação matemática não é consulta cadastral</h2>
+        <p>Esta ferramenta verifica somente o formato e os dígitos verificadores. Ela não consulta a Receita Federal, não confirma se uma empresa existe e não deve ser usada para produzir documentos fiscais ou cadastros reais.</p>
       </div>
-      
-      <div class="form-group">
-        <label for="volume">Volume Mensal</label>
-        <select name="volume" id="volume">
-          <option value="Baixo">Até 1.000 reqs</option>
-          <option value="Medio">1.000 a 50.000 reqs</option>
-          <option value="Alto">+50.000 reqs</option>
-        </select>
+    </section>
+
+    <section class="content" aria-labelledby="como-funciona">
+      <p class="eyebrow">Entenda a mudança</p>
+      <h2 id="como-funciona">Como funciona o CNPJ alfanumérico?</h2>
+      <div class="content-grid">
+        <p>A Receita Federal colocou seus sistemas em produção em julho de 2026 e emitiu o primeiro CNPJ alfanumérico em 31 de julho. O novo padrão vale para novas inscrições; os CNPJs numéricos já existentes continuam válidos.</p>
+        <p>O identificador mantém 14 posições: as 12 primeiras podem conter letras maiúsculas e números, e as duas últimas continuam numéricas. No cálculo do DV, cada caractere usa seu valor ASCII menos 48 e o módulo 11.</p>
       </div>
+      <p class="reference">Consulte o <a href="https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj" target="_blank" rel="noopener noreferrer">manual oficial de cálculo do DV ↗</a>.</p>
+    </section>
 
-      <button type="submit" class="primary btn-full">Entrar na Lista</button>
-      
-      <p id="form-status"></p>
-    </form>
-  </div>
-</div>
+    <section class="faq" aria-labelledby="perguntas-frequentes">
+      <p class="eyebrow">Perguntas frequentes</p>
+      <h2 id="perguntas-frequentes">O essencial para adaptar sistemas</h2>
 
-<script src="script.js"></script>
+      <details>
+        <summary>Os CNPJs atuais precisam ser alterados?</summary>
+        <p>Não. Segundo a Receita Federal, os números já existentes permanecem válidos. O formato alfanumérico alcança novas inscrições.</p>
+      </details>
+      <details>
+        <summary>Quais posições podem receber letras?</summary>
+        <p>As 12 primeiras posições podem conter letras maiúsculas de A a Z e números. Os dois dígitos verificadores finais permanecem numéricos.</p>
+      </details>
+      <details>
+        <summary>Um resultado “válido” pertence a uma empresa?</summary>
+        <p>Não necessariamente. Aqui, “válido” significa apenas que o formato e o cálculo dos dígitos estão corretos. O gerador produz dados sintéticos para testes.</p>
+      </details>
+      <details>
+        <summary>O validador funciona com CNPJ numérico antigo?</summary>
+        <p>Sim. A regra é retrocompatível: um CNPJ composto somente por números continua sendo validado pelo mesmo cálculo de módulo 11.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <p>Ferramenta independente, sem vínculo com a Receita Federal.</p>
+    <p><a href="https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/programas-e-atividades/cnpj-alfanumerico" target="_blank" rel="noopener noreferrer">Projeto oficial do CNPJ Alfanumérico ↗</a></p>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
 </body>
 </html>

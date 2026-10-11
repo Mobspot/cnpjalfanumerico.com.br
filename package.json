@@ -1,0 +1,12 @@
+{
+  "name": "cnpjalfanumerico-com-br",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "python -m unittest discover -s tests -v",
+    "test:js": "node --test tests/script.test.js",
+    "check": "npm run build && npm test && npm run test:js",
+    "preview": "node scripts/preview.mjs"
+  }
+}
