@@ -10,7 +10,7 @@
 
 ### Alterado
 
-- identidade candidata migrada de `geradorcnpjalfanumerico.com.br` para `cnpjalfanumerico.com.br`;
+- domínio canônico consolidado em `geradorcnpjalfanumerico.com.br`, único domínio confirmado pelo proprietário;
 - algoritmo isolado e testável, com geração por fonte criptográfica quando disponível;
 - interface refeita para acessibilidade, responsividade e clareza.
 

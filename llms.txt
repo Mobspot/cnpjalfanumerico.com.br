@@ -4,7 +4,7 @@
 
 ## Conteúdo principal
 
-- [Gerador e validador](https://cnpjalfanumerico.com.br/): ferramenta, explicação resumida, limitações e perguntas frequentes.
+- [Gerador e validador](https://geradorcnpjalfanumerico.com.br/): ferramenta, explicação resumida, limitações e perguntas frequentes.
 
 ## Limites importantes
 

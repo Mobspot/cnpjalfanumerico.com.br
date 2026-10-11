@@ -1,13 +1,13 @@
-# cnpjalfanumerico.com.br
+# geradorcnpjalfanumerico.com.br
 
 Gerador e validador estático de CNPJ alfanumérico para desenvolvimento, QA e homologação.
 
 ## Estado
 
 - baseline preservada da origem `SidMiranda/cnpjalfanumerico.com.br` no commit `03d9278`;
-- candidato mantido na branch `migration/cnpjalfanumerico`;
-- produção antiga em `geradorcnpjalfanumerico.com.br` permanece inalterada;
-- publicação e DNS do domínio definitivo aguardam autorização explícita.
+- candidato promovido à `main` após validação;
+- domínio oficial confirmado como `geradorcnpjalfanumerico.com.br`;
+- publicação operada pelo GitHub Pages da organização Mobspot.
 
 ## Comandos
 

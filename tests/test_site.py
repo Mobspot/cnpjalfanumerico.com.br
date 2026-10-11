@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
-DOMAIN = "https://cnpjalfanumerico.com.br/"
+DOMAIN = "https://geradorcnpjalfanumerico.com.br/"
 
 
 class SiteTests(unittest.TestCase):
@@ -60,9 +60,9 @@ class SiteTests(unittest.TestCase):
             text = path.read_text(encoding="utf-8", errors="ignore")
             self.assertNotRegex(text, r"(?i)(api[_-]?key|secret|token)\s*[:=]\s*['\"][A-Za-z0-9_-]{12,}")
 
-    def test_legacy_production_domain_is_not_in_artifact(self):
+    def test_nonexistent_short_domain_is_not_in_artifact(self):
         public_text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in DIST.rglob("*") if p.is_file() and p.suffix != ".png")
-        self.assertNotIn("geradorcnpjalfanumerico.com.br", public_text)
+        self.assertNotIn("https://cnpjalfanumerico.com.br", public_text)
 
 
 if __name__ == "__main__":
