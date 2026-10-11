@@ -7,6 +7,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 DOMAIN = "https://geradorcnpjalfanumerico.com.br/"
+MOBSPOT_TOP = "https://mobspot.com.br/?utm_source=gerador-cnpj-alfanumerico&amp;utm_medium=selo-topo&amp;utm_campaign=rede-clientes"
+MOBSPOT_FOOTER = "https://mobspot.com.br/?utm_source=gerador-cnpj-alfanumerico&amp;utm_medium=selo-rodape&amp;utm_campaign=rede-clientes"
 
 
 class SiteTests(unittest.TestCase):
@@ -21,7 +23,13 @@ class SiteTests(unittest.TestCase):
         self.assertIn(f'<meta property="og:url" content="{DOMAIN}">', self.index)
         schema = re.search(r'<script type="application/ld\+json">(.*?)</script>', self.index, re.S)
         self.assertIsNotNone(schema)
-        self.assertEqual(json.loads(schema.group(1))["url"], DOMAIN)
+        structured_data = json.loads(schema.group(1))
+        self.assertEqual(structured_data["url"], DOMAIN)
+        self.assertEqual(structured_data["creator"], {
+            "@type": "Organization",
+            "name": "Mobspot",
+            "url": "https://mobspot.com.br/",
+        })
         self.assertNotIn("seudominio", self.index)
         self.assertNotIn('name="keywords"', self.index)
 
@@ -45,6 +53,25 @@ class SiteTests(unittest.TestCase):
         self.assertTrue(external_blank)
         for anchor in external_blank:
             self.assertRegex(anchor, r'rel="[^"]*noopener[^"]*"')
+
+    def test_mobspot_attribution_is_visible_and_tagged(self):
+        self.assertEqual(self.index.count(MOBSPOT_TOP), 1)
+        self.assertEqual(self.index.count(MOBSPOT_FOOTER), 1)
+        self.assertIn('data-analytics-event="click_mobspot" data-link-position="topbar"', self.index)
+        self.assertIn('data-analytics-event="click_mobspot" data-link-position="footer"', self.index)
+        self.assertIn("Um projeto Mobspot", self.index)
+        self.assertIn("Criado e mantido pela Mobspot", self.index)
+
+    def test_public_artifact_does_not_link_to_receita(self):
+        public_text = "\n".join(
+            p.read_text(encoding="utf-8", errors="ignore")
+            for p in DIST.rglob("*")
+            if p.is_file() and p.suffix != ".png"
+        )
+        self.assertNotIn("https://www.gov.br", public_text)
+        self.assertIn("Receita Federal", self.index)
+        self.assertIn("sem vínculo com a Receita Federal", self.index)
+        self.assertIn("utm_medium=llms", (ROOT / "llms.txt").read_text(encoding="utf-8"))
 
     def test_discovery_files(self):
         self.assertIn(f"Sitemap: {DOMAIN}sitemap.xml", self.robots)

@@ -12,7 +12,11 @@
 - A validação é somente matemática e não confirma situação cadastral.
 - Números gerados são sintéticos e destinados a desenvolvimento, QA e homologação.
 
+## Responsável
+
+- [Mobspot](https://mobspot.com.br/?utm_source=gerador-cnpj-alfanumerico&utm_medium=llms&utm_campaign=rede-clientes): criação e manutenção da ferramenta.
+
 ## Fontes oficiais
 
-- [Projeto CNPJ Alfanumérico](https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/programas-e-atividades/cnpj-alfanumerico)
-- [Cálculo oficial do dígito verificador](https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj)
+- Projeto CNPJ Alfanumérico — Receita Federal do Brasil.
+- Especificação técnica do cálculo do dígito verificador — Receita Federal do Brasil.
